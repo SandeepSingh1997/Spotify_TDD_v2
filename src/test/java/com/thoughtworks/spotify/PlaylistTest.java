@@ -12,7 +12,7 @@ public class PlaylistTest {
         Playlist playlist = new Playlist("testPlaylist");
         Song song = new Song();
 
-        playlist.addSong(song);
+        playlist.add(song);
         int actualSongCount = playlist.songsCount();
 
         assertEquals(actualSongCount, 1);
@@ -24,9 +24,20 @@ public class PlaylistTest {
         Song song = new Song();
 
         assertThrows(SongAlreadyPresent.class, ()->{
-            playlist.addSong(song);
+            playlist.add(song);
         });
+    }
 
+    @Test
+    public void shouldBeAbleToRemoveASongFromAPlaylistWhenItExistsInThePlaylist() throws SongAlreadyPresent {
+        Playlist playlist = new Playlist("testPlaylist");
+        Song song = new Song();
+        playlist.add(song);
+
+        playlist.remove(song);
+        int actualSongsCount = playlist.songsCount();
+
+        assertEquals(actualSongsCount, 0);
     }
 
 }

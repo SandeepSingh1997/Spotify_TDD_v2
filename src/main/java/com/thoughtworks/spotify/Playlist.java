@@ -15,12 +15,16 @@ public class Playlist {
         this.songs = new ArrayList<>();
     }
 
-    public void addSong(Song song) throws SongAlreadyPresent {
+    public void add(Song song) throws SongAlreadyPresent {
         if(songs.contains(song)) throw new SongAlreadyPresent();
         this.songs.add(song);
     }
 
     public int songsCount() {
         return songs.size();
+    }
+
+    public void remove(Song song) {
+        songs.remove(song);
     }
 }
