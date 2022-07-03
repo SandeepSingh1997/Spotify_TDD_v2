@@ -1,6 +1,7 @@
 package com.thoughtworks.spotify;
 
-import com.thoughtworks.exception.SongAlreadyPresent;
+import com.thoughtworks.exception.SongAlreadyPresentException;
+import com.thoughtworks.exception.SongNotPresentException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlaylistTest {
     @Test
-    public void shouldBeAbleToAddASongToThePlaylist() throws SongAlreadyPresent {
+    public void shouldBeAbleToAddASongToThePlaylist() throws SongAlreadyPresentException {
         Playlist playlist = new Playlist("testPlaylist");
         Song song = new Song();
 
@@ -19,17 +20,17 @@ public class PlaylistTest {
     }
 
     @Test
-    public void shouldReturnSongAlreadyExistsExceptionWhenSongIsAlreadyPresentInPlaylist(){
+    public void shouldReturnSongAlreadyExistsExceptionWhenSongAlreadyPresentInPlaylistIsAdded(){
         Playlist playlist = new Playlist("testPlaylist");
         Song song = new Song();
 
-        assertThrows(SongAlreadyPresent.class, ()->{
+        assertThrows(SongAlreadyPresentException.class, ()->{
             playlist.add(song);
         });
     }
 
     @Test
-    public void shouldBeAbleToRemoveASongFromAPlaylistWhenItExistsInThePlaylist() throws SongAlreadyPresent {
+    public void shouldBeAbleToRemoveASongFromAPlaylistWhenItExistsInThePlaylist() throws SongAlreadyPresentException, SongNotPresentException {
         Playlist playlist = new Playlist("testPlaylist");
         Song song = new Song();
         playlist.add(song);
@@ -38,6 +39,16 @@ public class PlaylistTest {
         int actualSongsCount = playlist.songsCount();
 
         assertEquals(actualSongsCount, 0);
+    }
+
+    @Test
+    public void shouldReturnSongNotPresentExceptionWhenSongNotPresentInThePlaylistIsDeleted() throws SongAlreadyPresentException {
+        Playlist playlist = new Playlist("testPlaylist");
+        Song song = new Song();
+
+        assertThrows(SongNotPresentException.class, ()->{
+            playlist.remove(song);
+        });
     }
 
 }
