@@ -1,5 +1,7 @@
 package com.thoughtworks.spotify;
 
+import com.thoughtworks.exception.SongAlreadyPresent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,8 @@ public class Playlist {
         this.songs = new ArrayList<>();
     }
 
-    public void addSong(Song song) {
+    public void addSong(Song song) throws SongAlreadyPresent {
+        if(songs.contains(song)) throw new SongAlreadyPresent();
         this.songs.add(song);
     }
 
